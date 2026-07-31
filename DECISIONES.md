@@ -725,6 +725,7 @@ PS C:\Users\stali\IdeaProjects\Examen_Final_Armijos> git log --oneline --graph -
 * 175c886 Registra identidad del examen
 * 68fbc3a Configuracion de identidad
 * ea281ec Initial commit
+(END)
 ```
 
 **8.2** ¿Qué fase te tomó más tiempo del previsto y por qué?
