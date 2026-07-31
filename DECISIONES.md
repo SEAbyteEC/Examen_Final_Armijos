@@ -68,12 +68,26 @@
 **1.3** ¿Qué habría pasado si dejabas `ddl-auto=create-drop` en lugar de `update`?
 Responde pensando en tus datos sembrados.
 
->
+>Si hubiera dejado ddl-auto=create-drop, Hibernate habría creado las tablas al iniciar la aplicación y las habría eliminado automáticamente al detenerse.
+
+>En mi caso, esto habría provocado que los datos sembrados en la tabla tbl_productos_base_35 se perdieran cada vez que la aplicación finalizara, porque la estructura de la base de datos sería destruida.
+
+>Al utilizar ddl-auto=update, Hibernate conserva la tabla existente y mantiene los registros sembrados, permitiendo que los tres productos de banano (BANANO ORGANICO CAVENDISH PREMIUM, BANANO EXPORTACION CALIDAD A y >BANANO NATURAL SOSTENIBLE) permanezcan disponibles entre reinicios de la aplicación.
 
 **1.4** ¿Levantaste PostgreSQL con `compose.yaml` (Opción A) o con una instalación local
 (Opción B)? ¿Qué ventaja tiene la que elegiste?
 
->
+>Levanté PostgreSQL utilizando la Opción A mediante compose.yaml.
+
+>Elegí esta opción porque Docker permite tener un entorno reproducible y aislado. La configuración de PostgreSQL, incluyendo la versión de la base de datos, usuario, contraseña, puerto y volumen de almacenamiento, queda definida en el archivo compose.yaml.
+
+>Además, facilita levantar el mismo entorno en otro equipo sin tener que instalar y configurar PostgreSQL manualmente, evitando diferencias entre ambientes de desarrollo y pruebas.
+
+>En mi ejecución se confirmó la conexión mediante Hibernate con PostgreSQL 16.14 utilizando la URL:
+
+>jdbc:postgresql://localhost:5432/agrosmart_db
+
+>lo que permitió trabajar con mi tabla tbl_productos_base_35 y conservar los datos sembrados.
 
 ---
 
@@ -105,9 +119,9 @@ Indexes:
 agrosmart_db=# 
 En la sección Indexes aparece:
 
-"ukr1tt4xe0m3oaa44ooc4e5kk33" UNIQUE CONSTRAINT, btree (nombre_producto)
+>"ukr1tt4xe0m3oaa44ooc4e5kk33" UNIQUE CONSTRAINT, btree (nombre_producto)
 
-Esto demuestra que la columna nombre_producto tiene una restricción UNIQUE, generada por Hibernate a partir de:
+>Esto demuestra que la columna nombre_producto tiene una restricción UNIQUE, generada por Hibernate a partir de:
 
 @Column(
     name = "nombre_producto",
