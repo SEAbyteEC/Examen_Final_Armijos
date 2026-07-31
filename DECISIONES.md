@@ -685,20 +685,45 @@ Sin esta llamada, la prueba nunca ejecuta la suscripción y podría pasar aunque
 **8.1** Pega tu `git log --oneline --graph --all`.
 
 ```
-
+PS C:\Users\stali\IdeaProjects\Examen_Final_Armijos> git log --oneline --graph --all
+* 48f359c (HEAD -> feature/pruebas, origin/feature/pruebas) Agrega ProductoNoEncontradoException
+* 2457735 Agrego excepción ProductoNoEncontradoException
+* 5611071 Agregando las pruebas del proyecto
+| * d172720 (origin/feature/api-reactiva, feature/api-reactiva) Agrega clase principal y excepción para la API reactiva
+|/  
+* 7c1ce08  expongp los  endpoints reactivos y de publicidad
+* 67ec53a (origin/feature/ia-langchain4j, feature/ia-langchain4j) Se integra el langchain4j para publicidad de productos
+* fb3e105 (origin/feature/modelo-inmutable, feature/modelo-inmutable)  agrego modelo inmutable de producto y logica funcional
+* 4999e03 (origin/feature/persistencia-jpa, feature/persistencia-jpa) Agrego la entidad jpa de productos y siembra de datos segun lo esperado en el examen
+* d15aef6 (origin/feature/config-perfiles, feature/config-perfiles)  configura perfil prod con postgresql y puerto propio 8135
+:
 ```
 
 **8.2** ¿Qué fase te tomó más tiempo del previsto y por qué?
 
->
+>La fase que más tiempo me tomó fue la Fase 4 — Servicio reactivo y aislamiento del bloqueo, porque tuve que adaptar una lógica tradicional basada en JPA/Hibernate a un flujo reactivo utilizando WebFlux.
+
+El principal reto fue comprender que mi ProductoRepository utiliza JPA, por lo que métodos como findAll() y findById() realizan operaciones bloqueantes contra PostgreSQL. Para solucionar esto, en mi clase ProductoService tuve que envolver esas llamadas con Mono.fromCallable() y utilizar .subscribeOn(Schedulers.boundedElastic()) para ejecutar esas operaciones fuera del hilo reactivo principal de Netty.
+
+Además, tuve que validar que la conversión entre ProductoEntity y mi modelo inmutable Producto funcionara correctamente, junto con los filtros funcionales, defaultIfEmpty() y switchIfEmpty().
 
 **8.3** Si tuvieras 30 minutos más, ¿qué mejorarías **primero** de tu entrega y por qué
 esa y no otra?
 
->
+>Si tuviera 30 minutos adicionales, primero mejoraría la parte de pruebas y manejo de errores de la API, agregando más casos de prueba para validar escenarios como productos inexistentes, listas vacías y errores durante la llamada al servicio de IA.
+
+Elegiría esta mejora porque mi funcionalidad principal ya está implementada y funcionando: la aplicación inicia correctamente, conecta con PostgreSQL, expone los endpoints reactivos y pasa las pruebas actuales. Agregar más cobertura permitiría detectar posibles problemas futuros sin modificar la arquitectura que ya está establecida.
+
+Como mejora de una versión posterior, sí consideraría migrar la persistencia de JPA/Hibernate hacia una solución completamente reactiva como R2DBC, pero esa sería una modificación mayor que no realizaría en solamente 30 minutos.
 
 **8.4** Declara honestamente qué herramientas consultaste durante el examen
 (documentación, apuntes, asistentes de IA) y para qué. **Esta declaración no descuenta
 puntaje**; su omisión o falsedad sí constituye falta de honestidad académica.
 
->
+>Durante el desarrollo consulté documentación oficial y apuntes de la materia para verificar conceptos específicos de Spring Boot, Spring WebFlux, JPA/Hibernate y Reactor.
+
+También utilicé un asistente de inteligencia artificial como apoyo para revisar errores, comprender mensajes de compilación, validar configuraciones y recibir orientación sobre buenas prácticas de implementación.
+
+Las decisiones finales de diseño, la estructura del proyecto, la implementación de las clases como ProductoService, ProductoEntity, Producto y AgroSmartAIService, así como las pruebas realizadas, fueron desarrolladas y verificadas dentro de mi propio proyecto.
+
+El asistente fue utilizado como herramienta de apoyo y aprendizaje, no como sustituto de la implementación ni del análisis del código.
