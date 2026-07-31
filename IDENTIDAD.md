@@ -19,11 +19,11 @@ se busca en una tabla.
 
 | # | Parámetro | Cómo se obtiene | Mi valor |
 |:---:|-----------|-----------------|----------|
-| — | `35` | los 2 últimos dígitos de mi cédula | |
-| 1 | Nombre de la tabla | `tbl_productos_base_35` + `35` | |
-| 2 | Puerto | `81` + `35` | |
-| 3 | Categoría | según el **último dígito** (tabla de abajo) | |
-| — | Audiencia para el prompt de IA | según la categoría | |
+| — | 35 | los 2 últimos dígitos de mi cédula | |
+| 1 | Nombre de la tabla | tbl_productos_base_35 | |
+| 2 | Puerto | 8135 | |
+| 3 | Categoría | Banano | |
+| — | supermercados mayoristas| |
 
 **Tabla de categorías:**
 
