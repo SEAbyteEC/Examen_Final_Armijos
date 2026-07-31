@@ -4,24 +4,24 @@
 > sincrónica** del examen. Toma menos de 5 minutos y es lo único con horario fijo:
 > después trabajas a tu ritmo hasta el plazo del día siguiente.
 
-- **Nombre completo:**
-- **Cédula:**
-- **NRC:**
-- **Nonce del examen:**            <!-- código publicado por el docente en la sesión -->
-- **Fecha y hora de inicio:**      <!-- formato: 2026-XX-XX HH:MM -->
+- **Nombre completo:** Klever Stalin Armijos Hurtado
+- **Cédula:**171598483-5
+- **NRC:**30323
+- **Nonce del examen:**  AGS-2026          <!-- código publicado por el docente en la sesión -->
+- **Fecha y hora de inicio:** 2026-07-30 19:40     <!-- formato: 2026-XX-XX HH:MM -->
 
 ---
 
 ## Mi semilla personal
 
-Sean `NN` los **dos últimos dígitos** de mi cédula. No hay cálculos: se copian dígitos y
+Sean `35` los **dos últimos dígitos** de mi cédula. No hay cálculos: se copian dígitos y
 se busca en una tabla.
 
 | # | Parámetro | Cómo se obtiene | Mi valor |
 |:---:|-----------|-----------------|----------|
-| — | `NN` | los 2 últimos dígitos de mi cédula | |
-| 1 | Nombre de la tabla | `tbl_productos_base_` + `NN` | |
-| 2 | Puerto | `81` + `NN` | |
+| — | `35` | los 2 últimos dígitos de mi cédula | |
+| 1 | Nombre de la tabla | `tbl_productos_base_35` + `35` | |
+| 2 | Puerto | `81` + `35` | |
 | 3 | Categoría | según el **último dígito** (tabla de abajo) | |
 | — | Audiencia para el prompt de IA | según la categoría | |
 
@@ -35,7 +35,7 @@ se busca en una tabla.
 | 6 o 7 | Flores | floristerías premium |
 | 8 o 9 | Quinua | tiendas de alimentación saludable |
 
-> ✅ **Autocomprobación:** mi puerto empieza por `81` y termina con los mismos dos
+> ✅ **Autocomprobación:** mi puerto empieza por `8135` y termina con los mismos dos
 > dígitos que el nombre de mi tabla.
 
 **Valores fijos, iguales para todo el curso:** base de datos `agrosmart_db`,
