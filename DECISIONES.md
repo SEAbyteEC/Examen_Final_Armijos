@@ -28,13 +28,42 @@
 
 **1.1** ¿Qué archivo activa el perfil `prod` y qué línea exacta lo hace?
 
->
+> Porque que update aqui conserva los datos sembrados, mientras que create-drop los eliminaría y recrearía las tablas al detener la aplicación, perdiendo esos datos y no cumpliriamos con el objetivo.
 
 **1.2** Pega la línea del log de arranque donde se ve tu puerto y el perfil activo.
 
-```
+2026-07-30T22:02:47.520-05:00  INFO 7700 --- [agrosmart] [           main] o.s.boot.reactor.netty.NettyWebServer    : Netty started on port 8135 (http)
+2026-07-30T22:02:45.077-05:00  INFO 7700 --- [agrosmart] [           main] e.e.e.A.ArmijosAgrosmartApplication      : The following 1 profile is active: "prod"
+ :: Spring Boot ::                (v4.1.0)
 
-```
+2026-07-30T22:02:45.075-05:00  INFO 7700 --- [agrosmart] [           main] e.e.e.A.ArmijosAgrosmartApplication      : Starting ArmijosAgrosmartApplication using Java 21.0.11 with PID 7700 (C:\Users\stali\IdeaProjects\Examen_Final_Armijos\target\classes started by stali in C:\Users\stali\IdeaProjects\Examen_Final_Armijos)
+2026-07-30T22:02:45.077-05:00  INFO 7700 --- [agrosmart] [           main] e.e.e.A.ArmijosAgrosmartApplication      : The following 1 profile is active: "prod"
+2026-07-30T22:02:45.117-05:00  INFO 7700 --- [agrosmart] [           main] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\stali\IdeaProjects\Examen_Final_Armijos\compose.yaml
+2026-07-30T22:02:45.654-05:00  INFO 7700 --- [agrosmart] [           main] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-07-30T22:02:46.115-05:00  INFO 7700 --- [agrosmart] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-30T22:02:46.127-05:00  INFO 7700 --- [agrosmart] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
+2026-07-30T22:02:46.449-05:00  INFO 7700 --- [agrosmart] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-30T22:02:46.491-05:00  INFO 7700 --- [agrosmart] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-07-30T22:02:46.777-05:00  INFO 7700 --- [agrosmart] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-30T22:02:46.798-05:00  INFO 7700 --- [agrosmart] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-30T22:02:46.915-05:00  INFO 7700 --- [agrosmart] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@87aec6a
+2026-07-30T22:02:46.916-05:00  INFO 7700 --- [agrosmart] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-30T22:02:46.961-05:00  INFO 7700 --- [agrosmart] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+        Database JDBC URL [jdbc:postgresql://127.0.0.1:5432/agrosmart_db?ApplicationName=agrosmart]
+        Database driver: PostgreSQL JDBC Driver
+        Database dialect: PostgreSQLDialect
+        Database version: 16.14
+        Default catalog/schema: agrosmart_db/public
+        Autocommit mode: undefined/unknown
+        Isolation level: READ_COMMITTED [default READ_COMMITTED]
+        JDBC fetch size: none
+        Pool: DataSourceConnectionProvider
+        Minimum pool size: undefined/unknown
+        Maximum pool size: undefined/unknown
+2026-07-30T22:02:47.208-05:00  INFO 7700 --- [agrosmart] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-30T22:02:47.240-05:00  INFO 7700 --- [agrosmart] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-30T22:02:47.520-05:00  INFO 7700 --- [agrosmart] [           main] o.s.boot.reactor.netty.NettyWebServer    : Netty started on port 8135 (http)
+2026-07-30T22:02:47.523-05:00  INFO 7700 --- [agrosmart] [           main] e.e.e.A.ArmijosAgrosmartApplication      : Started ArmijosAgrosmartApplication in 2.699 seconds (process running for 2.955)
 
 **1.3** ¿Qué habría pasado si dejabas `ddl-auto=create-drop` en lugar de `update`?
 Responde pensando en tus datos sembrados.
