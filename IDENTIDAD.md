@@ -7,7 +7,7 @@
 - **Nombre completo:** Klever Stalin Armijos Hurtado
 - **Cédula:**171598483-5
 - **NRC:**30323
-- **Nonce del examen:**  AGS-2026          <!-- código publicado por el docente en la sesión -->
+- **Nonce del examen:**  AGS-9848-2026          <!-- código publicado por el docente en la sesión -->
 - **Fecha y hora de inicio:** 2026-07-30 19:40     <!-- formato: 2026-XX-XX HH:MM -->
 
 ---
