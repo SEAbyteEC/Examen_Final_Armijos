@@ -695,17 +695,36 @@ de copia defensiva?
 
 ```
 PS C:\Users\stali\IdeaProjects\Examen_Final_Armijos> git log --oneline --graph --all
-* 48f359c (HEAD -> feature/pruebas, origin/feature/pruebas) Agrega ProductoNoEncontradoException
-* 2457735 Agrego excepción ProductoNoEncontradoException
-* 5611071 Agregando las pruebas del proyecto
-| * d172720 (origin/feature/api-reactiva, feature/api-reactiva) Agrega clase principal y excepción para la API reactiva
+* deb5af2 (HEAD -> main, origin/main, origin/HEAD) Update IDENTIDAD.md
+* 87f8d4b Update LINK IDENTIDAD.md
+* a81ebdb Update FIRMAIDENTIDAD.md
+* b576c6c Update final3DECISIONES.md
+* 3b1e388 Update final 2DECISIONES.md
+* d6f4ce2 Update final DECISIONES.md
+* d7c614f Update DECISIONES.md
+* 42a8a47 curlt evidencia
+* 14bd11e evidencia tbl_productos_base_35
+* 778b859 Actualizo DECISIONES.md
+* 93a1aee creacion de las primeras ramas
+| * eb185b5 (origin/feature/pruebas, feature/pruebas, feature/documentacion) fix: ajusta configuracion final de aplicacion y perfil prod
+| * 48f359c Agrega ProductoNoEncontradoException
+| * 2457735 Agrego excepción ProductoNoEncontradoException
+| * 5611071 Agregando las pruebas del proyecto
+| | * d172720 (origin/feature/api-reactiva, feature/api-reactiva) Agrega clase principal y excepción para la API reactiva
+| |/  
+| * 7c1ce08  expongp los  endpoints reactivos y de publicidad
+| * 67ec53a (origin/feature/ia-langchain4j, feature/ia-langchain4j) Se integra el langchain4j para publicidad de productos
+| * fb3e105 (origin/feature/modelo-inmutable, feature/modelo-inmutable)  agrego modelo inmutable de producto y logica funcional
+| * 4999e03 (origin/feature/persistencia-jpa, feature/persistencia-jpa) Agrego la entidad jpa de productos y siembra de datos segun lo esperado en el examen
+| * d15aef6 (origin/feature/config-perfiles, feature/config-perfiles)  configura perfil prod con postgresql y puerto propio 8135
 |/  
-* 7c1ce08  expongp los  endpoints reactivos y de publicidad
-* 67ec53a (origin/feature/ia-langchain4j, feature/ia-langchain4j) Se integra el langchain4j para publicidad de productos
-* fb3e105 (origin/feature/modelo-inmutable, feature/modelo-inmutable)  agrego modelo inmutable de producto y logica funcional
-* 4999e03 (origin/feature/persistencia-jpa, feature/persistencia-jpa) Agrego la entidad jpa de productos y siembra de datos segun lo esperado en el examen
-* d15aef6 (origin/feature/config-perfiles, feature/config-perfiles)  configura perfil prod con postgresql y puerto propio 8135
-:
+* fc15333 Add files via upload
+* 331d199 Configuracion de puerto 8135 y perfil activo prod
+* d27c780 Registra identidad del examen
+* aed8ff9 Inicio de informacion basica en decisiones
+* 175c886 Registra identidad del examen
+* 68fbc3a Configuracion de identidad
+* ea281ec Initial commit
 ```
 
 **8.2** ¿Qué fase te tomó más tiempo del previsto y por qué?
