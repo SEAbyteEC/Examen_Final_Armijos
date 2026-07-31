@@ -17,10 +17,10 @@
 
 ## Datos
 
-- **Nombre:**
-- **Cédula:**
-- **NN (dos últimos dígitos):**
-- **Categoría asignada (según el último dígito):**
+- **Nombre:** Klever Stalin Armijos Hurtado
+- **Cédula:**1715984835
+- **NN (dos últimos dígitos):**35
+- **Categoría asignada (según el último dígito):**banano
 
 ---
 
