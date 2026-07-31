@@ -509,17 +509,34 @@ Durante la ejecución del examen el proveedor respondió correctamente, por lo q
 **6.1** Pega la salida real de tus cuatro `curl`.
 
 ```
-
+[{"id":1,"nombre":"BANANO ORGANICO CAVENDISH PREMIUM","categoria":"Banano","precioUsd":45.50,"correosNotificacion":["ventas@agrosmart.ec"]},{"id":2,"nombre":"BANANO EXPORTACION CALIDAD A","categoria":"Banano","precioUsd":60.00,"correosNotificacion":["exportaciones@agrosmart.ec"]},{"id":3,"nombre":"BANANO NATURAL SOSTENIBLE","categoria":"Banano","precioUsd":35.75,"correosNotificacion":["clientes@agrosmart.ec"]}]
 ```
 
 **6.2** ¿Cómo lograste que el id inexistente responda **404** y no 500?
 
->
+>Porque el servicio lanza una excepción personalizada cuando no encuentra el producto:
+
+throw new ProductoNoEncontradoException(id);
+
+Y esa excepción está anotada con:
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+
+Spring WebFlux convierte automáticamente esa excepción en una respuesta HTTP 404 Not Found, evitando que el servidor responda con un 500 Internal Server Error.
 
 **6.3** ¿Qué pasaría si tu controlador devolviera `List<Producto>` en lugar de
 `Flux<Producto>`? ¿Seguiría compilando? ¿Seguiría siendo no bloqueante?
 
->
+>Sí, el proyecto seguiría compilando.
+
+Sin embargo:
+
+dejaría de utilizar programación reactiva;
+el controlador devolvería una colección tradicional (List);
+el hilo permanecería bloqueado hasta obtener todos los datos;
+se perderían las ventajas de WebFlux como el procesamiento asíncrono y el streaming de datos.
+
+Por eso el controlador devuelve un Flux<Producto>.
 
 ---
 
@@ -528,28 +545,138 @@ Durante la ejecución del examen el proveedor respondió correctamente, por lo q
 **7.1** Pega la salida real de tus pruebas (`./mvnw test` o `./gradlew test`).
 
 ```
+PS C:\Users\stali\IdeaProjects\Examen_Final_Armijos> ./mvnw test                               
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< ec.edu.espe:armijos_agrosmart >--------------------
+[INFO] Building AgroSmart 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ armijos_agrosmart ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ armijos_agrosmart ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ armijos_agrosmart ---
+[INFO] skip non existing resourceDirectory C:\Users\stali\IdeaProjects\Examen_Final_Armijos\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ armijos_agrosmart ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ armijos_agrosmart ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running ec.edu.espe.agrosmart.AgrosmartApplicationTests
+09:50:44.755 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [ec.edu.espe.agrosmart.AgrosmartApplicationTests]: AgrosmartApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:50:44.814 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration ec.edu.espe.agrosmart.AgrosmartApplication for test class ec.edu.espe.agrosmart.AgrosmartApplicationTests
+09:50:44.868 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [ec.edu.espe.agrosmart.AgrosmartApplicationTests]: AgrosmartApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:50:44.869 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration ec.edu.espe.agrosmart.AgrosmartApplication for test class ec.edu.espe.agrosmart.AgrosmartApplicationTests
 
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.0)
+
+2026-07-31T09:50:45.091-05:00  INFO 3252 --- [agrosmart] [           main] e.e.e.a.AgrosmartApplicationTests        : Starting AgrosmartApplicationTests using Java 21.0.11 with PID 3252 (started by stali in C:\Users\stali\IdeaProjects\Examen_Final_Armijos)
+2026-07-31T09:50:45.092-05:00  INFO 3252 --- [agrosmart] [           main] e.e.e.a.AgrosmartApplicationTests        : The following 1 profile is active: "prod"
+2026-07-31T09:50:45.516-05:00  INFO 3252 --- [agrosmart] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-31T09:50:45.601-05:00  INFO 3252 --- [agrosmart] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 78 ms. Found 1 JPA repository interface.
+2026-07-31T09:50:45.649-05:00 DEBUG 3252 --- [agrosmart] [           main] d.l.s.spring.ClassPathAiServiceScanner   : Identified candidate component class: file [C:\Users\stali\IdeaProjects\Examen_Final_Armijos\target\classes\ec\edu\espe\agrosmart\service\AgroSmartAIService.class]
+2026-07-31T09:50:45.834-05:00  INFO 3252 --- [agrosmart] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-31T09:50:45.904-05:00  INFO 3252 --- [agrosmart] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-07-31T09:50:46.267-05:00  INFO 3252 --- [agrosmart] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-31T09:50:46.287-05:00  INFO 3252 --- [agrosmart] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-31T09:50:46.402-05:00  INFO 3252 --- [agrosmart] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5d3f8661
+2026-07-31T09:50:46.404-05:00  INFO 3252 --- [agrosmart] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-31T09:50:46.445-05:00  INFO 3252 --- [agrosmart] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+        Database JDBC URL [jdbc:postgresql://localhost:5432/agrosmart_db]
+        Database driver: PostgreSQL JDBC Driver
+        Database dialect: PostgreSQLDialect
+        Database version: 16.14
+        Default catalog/schema: agrosmart_db/public
+        Autocommit mode: undefined/unknown
+        Isolation level: READ_COMMITTED [default READ_COMMITTED]
+        JDBC fetch size: none
+        Pool: DataSourceConnectionProvider
+        Minimum pool size: undefined/unknown
+        Maximum pool size: undefined/unknown
+2026-07-31T09:50:47.063-05:00  INFO 3252 --- [agrosmart] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-31T09:50:47.096-05:00  INFO 3252 --- [agrosmart] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-31T09:50:47.143-05:00  INFO 3252 --- [agrosmart] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-31T09:50:47.806-05:00  INFO 3252 --- [agrosmart] [           main] e.e.e.a.AgrosmartApplicationTests        : Started AgrosmartApplicationTests in 2.893 seconds (process running for 3.61)
+Hibernate: 
+    select
+        count(*) 
+    from
+        tbl_productos_base_35 pe1_0
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (C:\Users\stali\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.10\byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.700 s -- in ec.edu.espe.agrosmart.AgrosmartApplicationTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.721 s
+[INFO] Finished at: 2026-07-31T09:50:48-05:00
+[INFO] ------------------------------------------------------------------------
+PS C:\Users\stali\IdeaProjects\Examen_Final_Armijos> 
 ```
 
 **7.2** ¿Cuántos productos espera tu `expectNextCount(...)` y por qué ese número
 concreto? Relaciónalo con tu semilla.
 
->
+>Mi prueba espera 3 productos mediante expectNextCount(3) porque la semilla inicial de la tabla tbl_productos_base_35 contiene exactamente tres registros comercializables.
+
+Los productos insertados en la semilla son:
+
+BANANO ORGANICO CAVENDISH PREMIUM
+BANANO EXPORTACION CALIDAD A
+BANANO NATURAL SOSTENIBLE
+
+Por esta razón, el método reactivo obtenerProductosComercializables() debe retornar un Flux<Producto> con tres elementos antes de completar correctamente.
 
 **7.3** ¿Por qué mockeaste `ProductoRepository` en lugar de dejar que la prueba consulte
 PostgreSQL?
 
->
+>Se mockeó ProductoRepository porque una prueba unitaria debe validar únicamente la lógica del servicio y no depender de componentes externos como la base de datos PostgreSQL.
+
+Al utilizar un mock se controla la respuesta del repositorio, haciendo la prueba más rápida, repetible y aislada. La conexión real a PostgreSQL corresponde a pruebas de integración, no a pruebas unitarias.
 
 **7.4** ¿Qué demuestra `assertNotSame` que `assertEquals` **no** demuestra en tu prueba
 de copia defensiva?
 
->
+>assertNotSame verifica que el objeto retornado sea una instancia diferente en memoria respecto al objeto original.
+
+Esto permite comprobar que la copia defensiva realmente crea un nuevo objeto y evita compartir la misma referencia.
+
+En cambio, assertEquals únicamente valida que ambos objetos tengan valores equivalentes en sus atributos, pero no comprueba si son objetos independientes o si apuntan a la misma dirección de memoria.
 
 **7.5** ¿Por qué una prueba de un `Flux` que no llama a `verifyComplete()` (o a
 `verify()`) no está probando nada?
 
->
+>Porque en Reactor los métodos como expectNext() o expectNextCount() solamente construyen una expectativa sobre el flujo, pero la ejecución real ocurre cuando se realiza la verificación.
+
+verifyComplete() permite suscribirse al Flux, comprobar que los elementos esperados fueron emitidos y confirmar que el flujo terminó correctamente.
+
+Sin esta llamada, la prueba nunca ejecuta la suscripción y podría pasar aunque el flujo tenga errores o nunca emita datos.
 
 ---
 
