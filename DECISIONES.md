@@ -94,7 +94,7 @@ Responde pensando en tus datos sembrados.
 ## Fase 2 — Persistencia con JPA/Hibernate
 
 **2.1** ¿Cuál es el nombre exacto de tu tabla y de dónde salió ese nombre?
-El nombre de mi tabla es tbl_productos_base_35. Lo obtuve a partir de los dos últimos dígitos de mi cédula (35), siguiendo la regla del examen en el que usted indica usar el formato tbl_productos_base_NN.
+>El nombre de mi tabla es tbl_productos_base_35. Lo obtuve a partir de los dos últimos dígitos de mi cédula (35), siguiendo la regla del examen en el que usted indica usar el formato tbl_productos_base_NN.
 
 **2.2** Pega la salida de `psql -d agrosmart_db -c "\d tbl_productos_base_NN"` y
 señala dónde se ve la restricción `unique` y el `length` de 120.
@@ -158,11 +158,11 @@ lo fuera? (piensa en la restricción `unique` de `nombre_producto`)
 
 >La siembra se hizo verificando si el producto ya existía antes de insertarlo.
 
-De esta manera el programa puede iniciarse varias veces sin duplicar registros.
+>De esta manera el programa puede iniciarse varias veces sin duplicar registros.
 
-Si no fuera idempotente, en el segundo arranque Hibernate intentaría insertar nuevamente el mismo producto y PostgreSQL lanzaría una excepción por violar la restricción:
+>Si no fuera idempotente, en el segundo arranque Hibernate intentaría insertar nuevamente el mismo producto y PostgreSQL lanzaría una excepción por violar la restricción:
 
-UNIQUE(nombre_producto)
+>UNIQUE(nombre_producto)
 
 ---
 
@@ -173,19 +173,15 @@ UNIQUE(nombre_producto)
 
 >Porque cumplen responsabilidades distintas.
 
-ProductoEntity
+>ProductoEntity
 
-representa la tabla de la base de datos
-es administrada por Hibernate
-necesita setters para que JPA pueda hidratar los objetos
+>representa la tabla de la base de datos es administrada por Hibernate necesita setters para que JPA pueda hidratar los objetos
 
 Producto
 
-representa el modelo del dominio
-es completamente inmutable
-se utiliza para aplicar la lógica funcional y reactiva.
+>representa el modelo del dominio es completamente inmutable se utiliza para aplicar la lógica funcional y reactiva.
 
-No es recomendable hacer completamente inmutable una entidad JPA porque Hibernate necesita modificar su estado durante la persistencia.
+>No es recomendable hacer completamente inmutable una entidad JPA porque Hibernate necesita modificar su estado durante la persistencia.
 
 **3.2** Escribe el código exacto de **tus dos** copias defensivas e indica en qué línea
 está cada una.
@@ -216,9 +212,9 @@ Producto p = new Producto(..., lista);
 
 lista.add("nuevo@correo.com");
 
-Si el constructor no hiciera copia defensiva, el contenido interno del objeto cambiaría aunque la clase sea inmutable.
+>Si el constructor no hiciera copia defensiva, el contenido interno del objeto cambiaría aunque la clase sea inmutable.
 
-Por eso también se realiza la copia dentro del constructor.
+>Por eso también se realiza la copia dentro del constructor.
 
 **3.4** ¿Cómo implementaste `A_MAYUSCULAS` para no mutar el `Producto` recibido?
 No se modifica el objeto existente.
@@ -392,29 +388,28 @@ hilo aparecía en el log antes y después.
 
 >El acceso a la base de datos es bloqueante.
 
-Sin .subscribeOn(Schedulers.boundedElastic())
-la consulta se ejecuta sobre el hilo reactivo principal (event-loop), bloqueándolo.
+>Sin .subscribeOn(Schedulers.boundedElastic()) la consulta se ejecuta sobre el hilo reactivo principal (event-loop), bloqueándolo.
 
-Con boundedElastic la operación se mueve a un pool de hilos preparado para tareas bloqueantes, evitando afectar el rendimiento del flujo reactivo.
+>Con boundedElastic la operación se mueve a un pool de hilos preparado para tareas bloqueantes, evitando afectar el rendimiento del flujo reactivo.
 
 **4.3** ¿Por qué `Mono.fromCallable(...)` y no `Mono.just(repository.findAll())`?
 (pista: cuándo se ejecuta cada uno)
 
 >Porque
 
-Mono.fromCallable(...)
+>Mono.fromCallable(...)
 
-ejecuta la consulta cuando alguien se suscribe al flujo.
+>ejecuta la consulta cuando alguien se suscribe al flujo.
 
-En cambio
+>En cambio
 
-Mono.just(repository.findAll())
+>Mono.just(repository.findAll())
 
-ejecuta inmediatamente
+>ejecuta inmediatamente
 
-repository.findAll()
+>repository.findAll()
 
-antes de crear el Mono, perdiendo el diferimiento (lazy execution) y bloqueando el hilo actual.
+>antes de crear el Mono, perdiendo el diferimiento (lazy execution) y bloqueando el hilo actual.
 
 **4.4** En **tu** código, ¿dónde usaste `defaultIfEmpty` y dónde `switchIfEmpty`, y por
 qué no son intercambiables en esos dos lugares?
@@ -423,7 +418,7 @@ qué no son intercambiables en esos dos lugares?
 switchIfEmpty() se utilizó cuando un producto no existía para lanzar:
 new ProductoNoEncontradoException(id)
 
-No son intercambiables porque:
+>No son intercambiables porque:
 
 defaultIfEmpty reemplaza por un valor.
 switchIfEmpty cambia completamente el flujo reactivo, incluso puede devolver un error.
@@ -435,15 +430,15 @@ switchIfEmpty cambia completamente el flujo reactivo, incluso puede devolver un 
 
 doOnNext()
 
-solo ejecuta efectos secundarios.
+>solo ejecuta efectos secundarios.
 
-Siempre devuelve exactamente el mismo objeto.
+>Siempre devuelve exactamente el mismo objeto.
 
-Para transformar un elemento debe utilizarse
+>Para transformar un elemento debe utilizarse
 
 map()
 
-que sí produce un nuevo objeto dentro del flujo.
+>que sí produce un nuevo objeto dentro del flujo.
 
 ---
 
@@ -483,31 +478,31 @@ parámetro?
 
 del prompt.
 
-Si se eliminara @V, LangChain4j no sabría qué variable debe sustituir y el prompt no podría construirse correctamente.
+>Si se eliminara @V, LangChain4j no sabría qué variable debe sustituir y el prompt no podría construirse correctamente.
 
 **5.3** ¿En qué archivo y con qué líneas configuraste el modelo? ¿Por qué **no** hizo
 falta declarar un `@Bean`?
 
 >Se configuró en:
 
-application.properties
+>application.properties
 
-mediante las propiedades de Spring AI/LangChain4j.
+>mediante las propiedades de Spring AI/LangChain4j.
 
-No fue necesario declarar un @Bean porque la integración de Spring Boot realiza la autoconfiguración y crea automáticamente el servicio anotado con @AiService.
+>No fue necesario declarar un @Bean porque la integración de Spring Boot realiza la autoconfiguración y crea automáticamente el servicio anotado con @AiService.
 
 **5.4** ¿Por qué la llamada a la IA también necesita `boundedElastic`, si no es una
 consulta a base de datos?
 
 >Aunque no consulta una base de datos, la llamada al proveedor de IA realiza una petición HTTP externa.
 
-Es una operación bloqueante de entrada/salida (I/O).
+>Es una operación bloqueante de entrada/salida (I/O).
 
-Por ello también debe ejecutarse sobre:
+>Por ello también debe ejecutarse sobre:
 
-Schedulers.boundedElastic()
+>Schedulers.boundedElastic()
 
-para no bloquear el hilo reactivo principal.
+>para no bloquear el hilo reactivo principal.
 
 **5.5** Si tu proveedor devolvió un error durante el examen, pega el mensaje real y la
 respuesta que produjo tu `onErrorResume`.
@@ -530,13 +525,13 @@ Durante la ejecución del examen el proveedor respondió correctamente, por lo q
 
 >Porque el servicio lanza una excepción personalizada cuando no encuentra el producto:
 
-throw new ProductoNoEncontradoException(id);
+>throw new ProductoNoEncontradoException(id);
 
-Y esa excepción está anotada con:
+>Y esa excepción está anotada con:
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
+>@ResponseStatus(HttpStatus.NOT_FOUND)
 
-Spring WebFlux convierte automáticamente esa excepción en una respuesta HTTP 404 Not Found, evitando que el servidor responda con un 500 Internal Server Error.
+>Spring WebFlux convierte automáticamente esa excepción en una respuesta HTTP 404 Not Found, evitando que el servidor responda con un 500 Internal Server Error.
 
 **6.3** ¿Qué pasaría si tu controlador devolviera `List<Producto>` en lugar de
 `Flux<Producto>`? ¿Seguiría compilando? ¿Seguiría siendo no bloqueante?
@@ -545,12 +540,12 @@ Spring WebFlux convierte automáticamente esa excepción en una respuesta HTTP 4
 
 Sin embargo:
 
-dejaría de utilizar programación reactiva;
-el controlador devolvería una colección tradicional (List);
-el hilo permanecería bloqueado hasta obtener todos los datos;
-se perderían las ventajas de WebFlux como el procesamiento asíncrono y el streaming de datos.
+>dejaría de utilizar programación reactiva;
+>el controlador devolvería una colección tradicional (List);
+>el hilo permanecería bloqueado hasta obtener todos los datos;
+>se perderían las ventajas de WebFlux como el procesamiento asíncrono y el streaming de datos.
 
-Por eso el controlador devuelve un Flux<Producto>.
+>Por eso el controlador devuelve un Flux<Producto>.
 
 ---
 
@@ -659,38 +654,38 @@ concreto? Relaciónalo con tu semilla.
 
 >Mi prueba espera 3 productos mediante expectNextCount(3) porque la semilla inicial de la tabla tbl_productos_base_35 contiene exactamente tres registros comercializables.
 
-Los productos insertados en la semilla son:
+>Los productos insertados en la semilla son:
 
 BANANO ORGANICO CAVENDISH PREMIUM
 BANANO EXPORTACION CALIDAD A
 BANANO NATURAL SOSTENIBLE
 
-Por esta razón, el método reactivo obtenerProductosComercializables() debe retornar un Flux<Producto> con tres elementos antes de completar correctamente.
+>Por esta razón, el método reactivo obtenerProductosComercializables() debe retornar un Flux<Producto> con tres elementos antes de completar correctamente.
 
 **7.3** ¿Por qué mockeaste `ProductoRepository` en lugar de dejar que la prueba consulte
 PostgreSQL?
 
 >Se mockeó ProductoRepository porque una prueba unitaria debe validar únicamente la lógica del servicio y no depender de componentes externos como la base de datos PostgreSQL.
 
-Al utilizar un mock se controla la respuesta del repositorio, haciendo la prueba más rápida, repetible y aislada. La conexión real a PostgreSQL corresponde a pruebas de integración, no a pruebas unitarias.
+>Al utilizar un mock se controla la respuesta del repositorio, haciendo la prueba más rápida, repetible y aislada. La conexión real a PostgreSQL corresponde a pruebas de integración, no a pruebas unitarias.
 
 **7.4** ¿Qué demuestra `assertNotSame` que `assertEquals` **no** demuestra en tu prueba
 de copia defensiva?
 
 >assertNotSame verifica que el objeto retornado sea una instancia diferente en memoria respecto al objeto original.
 
-Esto permite comprobar que la copia defensiva realmente crea un nuevo objeto y evita compartir la misma referencia.
+>Esto permite comprobar que la copia defensiva realmente crea un nuevo objeto y evita compartir la misma referencia.
 
-En cambio, assertEquals únicamente valida que ambos objetos tengan valores equivalentes en sus atributos, pero no comprueba si son objetos independientes o si apuntan a la misma dirección de memoria.
+>En cambio, assertEquals únicamente valida que ambos objetos tengan valores equivalentes en sus atributos, pero no comprueba si son objetos independientes o si apuntan a la misma dirección de memoria.
 
 **7.5** ¿Por qué una prueba de un `Flux` que no llama a `verifyComplete()` (o a
 `verify()`) no está probando nada?
 
 >Porque en Reactor los métodos como expectNext() o expectNextCount() solamente construyen una expectativa sobre el flujo, pero la ejecución real ocurre cuando se realiza la verificación.
 
-verifyComplete() permite suscribirse al Flux, comprobar que los elementos esperados fueron emitidos y confirmar que el flujo terminó correctamente.
+>verifyComplete() permite suscribirse al Flux, comprobar que los elementos esperados fueron emitidos y confirmar que el flujo terminó correctamente.
 
-Sin esta llamada, la prueba nunca ejecuta la suscripción y podría pasar aunque el flujo tenga errores o nunca emita datos.
+>Sin esta llamada, la prueba nunca ejecuta la suscripción y podría pasar aunque el flujo tenga errores o nunca emita datos.
 
 ---
 
@@ -717,18 +712,18 @@ PS C:\Users\stali\IdeaProjects\Examen_Final_Armijos> git log --oneline --graph -
 
 >La fase que más tiempo me tomó fue la Fase 4 — Servicio reactivo y aislamiento del bloqueo, porque tuve que adaptar una lógica tradicional basada en JPA/Hibernate a un flujo reactivo utilizando WebFlux.
 
-El principal reto fue comprender que mi ProductoRepository utiliza JPA, por lo que métodos como findAll() y findById() realizan operaciones bloqueantes contra PostgreSQL. Para solucionar esto, en mi clase ProductoService tuve que envolver esas llamadas con Mono.fromCallable() y utilizar .subscribeOn(Schedulers.boundedElastic()) para ejecutar esas operaciones fuera del hilo reactivo principal de Netty.
+>El principal reto fue comprender que mi ProductoRepository utiliza JPA, por lo que métodos como findAll() y findById() realizan operaciones bloqueantes contra PostgreSQL. Para solucionar esto, en mi clase ProductoService >tuve que envolver esas llamadas con Mono.fromCallable() y utilizar .subscribeOn(Schedulers.boundedElastic()) para ejecutar esas operaciones fuera del hilo reactivo principal de Netty.
 
-Además, tuve que validar que la conversión entre ProductoEntity y mi modelo inmutable Producto funcionara correctamente, junto con los filtros funcionales, defaultIfEmpty() y switchIfEmpty().
+>Además, tuve que validar que la conversión entre ProductoEntity y mi modelo inmutable Producto funcionara correctamente, junto con los filtros funcionales, defaultIfEmpty() y switchIfEmpty().
 
 **8.3** Si tuvieras 30 minutos más, ¿qué mejorarías **primero** de tu entrega y por qué
 esa y no otra?
 
->Si tuviera 30 minutos adicionales, primero mejoraría la parte de pruebas y manejo de errores de la API, agregando más casos de prueba para validar escenarios como productos inexistentes, listas vacías y errores durante la llamada al servicio de IA.
+>Si tuviera 30 minutos adicionales, primero mejoraría la parte de pruebas y manejo de errores de la API, agregando más casos de prueba para validar escenarios como productos inexistentes, listas vacías y errores durante >la llamada al servicio de IA.
 
-Elegiría esta mejora porque mi funcionalidad principal ya está implementada y funcionando: la aplicación inicia correctamente, conecta con PostgreSQL, expone los endpoints reactivos y pasa las pruebas actuales. Agregar más cobertura permitiría detectar posibles problemas futuros sin modificar la arquitectura que ya está establecida.
+>Elegiría esta mejora porque mi funcionalidad principal ya está implementada y funcionando: la aplicación inicia correctamente, conecta con PostgreSQL, expone los endpoints reactivos y pasa las pruebas actuales. Agregar >más cobertura permitiría detectar posibles problemas futuros sin modificar la arquitectura que ya está establecida.
 
-Como mejora de una versión posterior, sí consideraría migrar la persistencia de JPA/Hibernate hacia una solución completamente reactiva como R2DBC, pero esa sería una modificación mayor que no realizaría en solamente 30 minutos.
+>Como mejora de una versión posterior, sí consideraría migrar la persistencia de JPA/Hibernate hacia una solución completamente reactiva como R2DBC, pero esa sería una modificación mayor que no realizaría en solamente 30 >minutos.
 
 **8.4** Declara honestamente qué herramientas consultaste durante el examen
 (documentación, apuntes, asistentes de IA) y para qué. **Esta declaración no descuenta
@@ -736,8 +731,8 @@ puntaje**; su omisión o falsedad sí constituye falta de honestidad académica.
 
 >Durante el desarrollo consulté documentación oficial y apuntes de la materia para verificar conceptos específicos de Spring Boot, Spring WebFlux, JPA/Hibernate y Reactor.
 
-También utilicé un asistente de inteligencia artificial como apoyo para revisar errores, comprender mensajes de compilación, validar configuraciones y recibir orientación sobre buenas prácticas de implementación.
+>También utilicé un asistente de inteligencia artificial como apoyo para revisar errores, comprender mensajes de compilación, validar configuraciones y recibir orientación sobre buenas prácticas de implementación.
 
-Las decisiones finales de diseño, la estructura del proyecto, la implementación de las clases como ProductoService, ProductoEntity, Producto y AgroSmartAIService, así como las pruebas realizadas, fueron desarrolladas y verificadas dentro de mi propio proyecto.
+>Las decisiones finales de diseño, la estructura del proyecto, la implementación de las clases como ProductoService, ProductoEntity, Producto y AgroSmartAIService, así como las pruebas realizadas, fueron desarrolladas y >verificadas dentro de mi propio proyecto.
 
-El asistente fue utilizado como herramienta de apoyo y aprendizaje, no como sustituto de la implementación ni del análisis del código.
+>El asistente fue utilizado como herramienta de apoyo y aprendizaje, no como sustituto de la implementación ni del análisis del código.
