@@ -52,7 +52,7 @@ se busca en una tabla.
 
 - **Enlace al video (5 min, cámara + pantalla):** https://drive.google.com/file/d/1GtNxapa8jc4z4EggjjB4NXExDIzinNMe/view?usp=sharing 
 - **Plataforma:**      Drive institucional             <!-- Drive institucional / OneDrive / YouTube no listado -->
--- **Acceso verificado en incógnito:**   ☑ Sí
+- **Acceso verificado en incógnito:**   ☑ Sí
 - **Duración real:** 5:26 MM
 
 ---
